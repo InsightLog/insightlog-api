@@ -1,0 +1,15 @@
+import authRoutes from "./auth.js";
+import express from "express";
+import adminRoutes from "./admin.js";
+import teamRoutes from "./teams.js";
+import logRoutes from "./logs.js";
+import likeRoutes from "./reputation.js";
+import userRoutes from "./user.js";
+const Router = express();
+Router.use("/v1/auth", authRoutes);
+Router.use("/v1/admin", adminRoutes);
+Router.use("/v1/teams", teamRoutes);
+Router.use("/v1/logs", logRoutes);
+Router.use("/v1/users", userRoutes);
+Router.use("/v1/like", likeRoutes);
+export default Router;

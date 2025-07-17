@@ -1,0 +1,32 @@
+node_modules/
+dist/   
+.env
+.env.*
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+coverage/
+.DS_Store
+*.log
+*.sqlite
+*.sqlite3
+.idea/
+.vscode/
+*.swp
+*.swo
+*.bak
+*.tmp
+# Prisma
+prisma/migrations/
+prisma/dev.db
+# Redis dump
+dump.rdb
+# OS files
+Thumbs.db
+# Optional: test output
+test-output/
+# Optional: logs
+logs/
+# Optional: build artifacts
+build/

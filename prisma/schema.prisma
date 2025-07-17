@@ -1,0 +1,80 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String    @id @default(uuid())
+  name      String
+  email     String    @unique
+  password  String
+  role      Role      @default(MEMBER)
+  teamId    String?
+  team      Team?     @relation(fields: [teamId], references: [id])
+  logs      Log[]
+  createdAt DateTime  @default(now())
+  LogLike   LogLike[]
+}
+
+model Team {
+  id     String   @id @default(uuid())
+  name   String
+  users  User[]
+  logs   Log[]
+  invites Invite[]
+}
+
+model Log {
+  id         String       @id @default(uuid())
+  title      String
+  content    String
+  tags       String[]
+  author     User         @relation(fields: [authorId], references: [id])
+  authorId   String
+  team       Team?        @relation(fields: [teamId], references: [id])
+  teamId     String?
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime?    @updatedAt
+  LogLike    LogLike[]
+  LogHistory LogHistory[]
+}
+
+enum Role {
+  ADMIN
+  LEAD
+  MEMBER
+}
+
+model LogLike {
+  id        String   @id @default(uuid())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  log       Log      @relation(fields: [logId], references: [id])
+  logId     String
+  createdAt DateTime @default(now())
+
+  @@unique([userId, logId])
+}
+
+model LogHistory {
+  id       String   @id @default(uuid())
+  logId    String
+  content  String
+  editedBy String
+  editedAt DateTime @default(now())
+
+  log Log @relation(fields: [logId], references: [id])
+}
+
+model Invite {
+  id     String   @id @default(uuid())
+  email  String
+  team   Team     @relation(fields: [teamId], references: [id])
+  teamId String
+  status String   @default("pending")
+  sentAt DateTime @default(now())
+}
