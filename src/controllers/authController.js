@@ -60,6 +60,16 @@ export const register = async (req, res) => {
       },
     });
 
+    if (teamId) {
+      await prisma.invite.deleteMany({
+        where: {
+          teamId,
+          email,
+        },
+      });
+    }
+
+
     // 4. Generate JWT
     const token = jwt.sign(
       {
