@@ -3,7 +3,7 @@ import { Resend } from 'resend';
 const resend = new Resend(process.env.RESEND_API_KEY); // Add key in .env
 
 export const sendInviteEmail = async ({ email, team, user }) => {
-  const registerUrl = `http://localhost:5173/v1/invite/register?teamId=${team.id}&email=${encodeURIComponent(email)}`;
+  const registerUrl = `https://insightlog.onrender.com/v1/invite/register?teamId=${team.id}&email=${encodeURIComponent(email)}`;
 
   return await resend.emails.send({
     from: 'InsightLog <onboarding@resend.dev>',
