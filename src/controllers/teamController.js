@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import { fetchTeamLead } from "../services/userService.js";
-import { sendInviteEmail } from "../utils/email.js";
+import { sendInviteEmail } from "../utils/BrevoEmail.js";
 const prisma = new PrismaClient();
 
 export const createTeam = async (req, res) => {
