@@ -16,6 +16,23 @@ export const login = async (req, res) => {
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(401).json({ error: "Invalid credentials" });
 
+    const demoAccounts = [
+      { email: "admin@demo.com", password: "admin123" },
+      { email: "member@demo.com", password: "member123" },
+    ];
+
+    const isDemoAccount = demoAccounts.some(
+      (account) => account.email === email && account.password === password
+    );
+
+    if (isDemoAccount) {
+      await prisma.demoLoginTracker.upsert({
+        where: { email },
+        update: { loginCount: { increment: 1 } },
+        create: { email, loginCount: 1 },
+      });
+    }
+
     // Sign JWT
     const token = jwt.sign(
       {
